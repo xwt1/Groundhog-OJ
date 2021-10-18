@@ -12,6 +12,7 @@ import {BrowserRouter as Router, Switch, Route,Redirect} from "react-router-dom"
 import ProblemList from "../../components/problemlist/problemList";
 import {Components} from "antd/es/date-picker/generatePicker";
 import UserInfo from "../../components/userinfo/userinfo";
+import Welcome from "../../components/welcome/welcome";
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
@@ -31,7 +32,7 @@ class App extends React.Component {
             <Layout style={{ minHeight: '100vh' }}>
                 <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
                     <div className="logo" />
-                    <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" onSelect={(info)=>{
+                    <Menu theme="dark"  mode="inline" onSelect={(info)=>{
                         console.log(this.props)
                         switch (info.key){
                             case '1':
@@ -62,6 +63,8 @@ class App extends React.Component {
                         <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
                             <Route path="/home/problem" component={ProblemList}/>
                             <Route path="/home/userinfo" component={UserInfo}/>
+                            <Route path="/home/welcome" component={Welcome}/>
+                            <Redirect to='/home/welcome'/>
                         </div>
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
