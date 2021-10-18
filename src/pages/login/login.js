@@ -80,15 +80,17 @@ const LoginForm = () => {
 
 function LoginPage(){
     return  (
-        <Layout className="layout">
-            <Space direction={"vertical"} size={25}>
+        <div className="login">
+            <div className="loginbox">
+            <div className="content">
                 <Image
-                    width={'300px'}
+                    width={'200px'}
                     src="http://img.tom61.com/file/shaoertuku/jianbihuatupian/2017-11-21/3b342b0d07fe4d77662fd0348aed143a.jpg"
                 />
                 <LoginForm/>
-            </Space>
-        </Layout>
+            </div>
+            </div>
+        </div>
     )
 }
 export  default LoginPage;

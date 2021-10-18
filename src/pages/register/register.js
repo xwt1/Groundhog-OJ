@@ -1,6 +1,6 @@
 
 import 'antd/dist/antd.css';
-import './register.css';
+import '../../index.css';
 
 import { Layout} from 'antd';
 

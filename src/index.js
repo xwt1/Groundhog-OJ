@@ -1,22 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router,Switch, Route } from "react-router-dom";
-import LoginPage from "./components/login/login";
-import RegisterPage from "./components/register/register";
+import {Layout, Menu, Breadcrumb} from 'antd';
+
+import {BrowserRouter as Router, Switch, Route,Redirect} from "react-router-dom";
+import LoginPage from "./pages/login/login";
+import RegisterPage from "./pages/register/register";
+import NotFound from "./pages/error/error";
+import UserPage from "./pages/app/main";
+import ProblemList from "./components/problemlist/problemList";
+import App from "./pages/app/main";
+import * as path from "path";
+const {Header, Content, Footer} = Layout;
+
+
 
 ReactDOM.render(
-    <Router>
-        <div>
-            <div> this is index page</div>
-                {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-                <Switch>
-                    <Route path="/login">
-                        <LoginPage/>
-                    </Route>
-                    <Route path="/register">
-                        <RegisterPage />
-                    </Route>
-                </Switch>
-        </div>
-    </Router>, document.getElementById('root'));
+
+        <Router>
+            <Switch>
+                {/*<Route path="/index" component={}/>*/}
+                <Route path="/login" component={LoginPage}/>
+                <Route path="/notfound" component={NotFound}/>
+                <Route path="/home" component={App}/>
+            </Switch>
+        </Router>
+
+    , document.getElementById('root'));
