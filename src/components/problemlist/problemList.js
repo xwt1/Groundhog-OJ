@@ -1,19 +1,17 @@
-import {List, message, Avatar, Spin} from 'antd';
+import {List, message, Avatar} from 'antd';
 import React from 'react';
 
 
-const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
-
-
-const mockdata = {
-
-}
+// const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
 
 class ProblemList extends React.Component {
     state = {
-        data: [],
+        data: [
+
+        ],
         loading: false,
         hasMore: true,
+
     };
 
     componentDidMount() {
@@ -22,6 +20,17 @@ class ProblemList extends React.Component {
                 data: res.results,
             });
         });
+        for (let i = 0; i < 23; i++) {
+            this.state.data.push({
+                href: 'https://ant.design',
+                title: `ant design part ${i}`,
+                avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+                description:
+                    'Ant Design, a design language for background applications, is refined by Ant UED Team.',
+                content:
+                    'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+            })
+        }
     }
 
     fetchData = callback => {
@@ -52,29 +61,28 @@ class ProblemList extends React.Component {
 
     render() {
         return (
-            <div>
-                <List
-                    dataSource={this.state.data}
-                    renderItem={item => (
-                        <List.Item key={item.id}>
-                            <List.Item.Meta
-                                avatar={
-                                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                                }
-                                title={<a href="https://ant.design">{item.name.last}</a>}
-                                description={item.email}
-                            />
-                            <div>Content</div>
-                        </List.Item>
-                    )}
-                >
-                    {this.state.loading && this.state.hasMore && (
-                        <div className="demo-loading-container">
-                            <Spin />
-                        </div>
-                    )}
-                </List>
-            </div>
+            <List
+                itemLayout={"horizontal"}
+                dataSource={this.state.data}
+                pagination={{
+                    onChange:page=>{
+                        console.log(page);
+                    },
+                    pageSize:8,
+                }}
+                renderItem={item=>(
+                    <List.Item>
+                        <List.Item.Meta
+                            avatar={<Avatar src={item.avatar} />}
+                            title={<a href={item.href}>{item.title}</a>}
+                            description={item.description}
+
+
+                        />
+
+                    </List.Item>
+                )}
+            />
         );
     }
 }

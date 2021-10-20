@@ -4,7 +4,6 @@ import {Button, Checkbox, Form, Input} from "antd";
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
 import {Link} from "react-router-dom";
 import {HOST_URL} from "../../utils/utils";
-import {repeat} from "redux-logger/src/helpers";
 
 
 class LoginForm extends React.Component {
