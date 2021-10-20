@@ -10,13 +10,13 @@ import {
 import * as path from "path";
 import {BrowserRouter as Router, Switch, Route,Redirect} from "react-router-dom";
 import ProblemList from "../../components/problemlist/problemList";
-import {Components} from "antd/es/date-picker/generatePicker";
+
 import UserInfo from "../../components/userinfo/userinfo";
 import Welcome from "../../components/welcome/welcome";
 const { Header, Content, Footer, Sider } = Layout;
-const { SubMenu } = Menu;
 
-class App extends React.Component {
+
+class HomePage extends React.Component {
     state = {
         collapsed: false,
     };
@@ -33,7 +33,6 @@ class App extends React.Component {
                 <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
                     <div className="logo" />
                     <Menu theme="dark"  mode="inline" onSelect={(info)=>{
-                        console.log(this.props)
                         switch (info.key){
                             case '1':
                                 this.props.history.push(`/home/userinfo`);
@@ -73,4 +72,4 @@ class App extends React.Component {
         );
     }
 }
-export default App;
+export default HomePage;

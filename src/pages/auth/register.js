@@ -3,21 +3,43 @@ import axios from "axios";
 import {Button, Checkbox, Form, Input} from "antd";
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
 import {Link} from "react-router-dom";
+import {HOST_URL} from "../../utils/utils";
 
 class  RegisterForm extends React.Component {
 
 
-    // onFinish(values){
-    //     console.log('Received values of form: ', values);
-    //     axios.post("http://localhost:3000/api/register", {
-    //         username: values.username,
-    //         password: values.password
-    //     }).then(response => {
-    //         console.log(response)
-    //     }).catch(error => {
-    //         console.log(error);
-    //     });
-    // }
+    onFinish = (values) => {
+        console.log('Received values of form: ', values);
+        let reg = /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+        if(!reg.test(values.email)){
+            alert("邮箱格式不正确");
+            return;
+        }
+        if (values.confirm!==values.password){
+            alert("两次输入的密码不一致")
+            return;
+        }
+        reg =/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+        if (!reg.test(values.password)){
+            alert("密码格式不正确"+reg);
+            return;
+        }
+        axios.post(HOST_URL+'/api/register', {
+            username: values.username,
+            password: values.password,
+            email: values.email,
+        }).then(response => {
+            if (response.status===200){
+                localStorage.setItem('jwt',response.data.jwt)
+                this.props.history.replace('/home')
+            }
+        }).catch(error => {
+            alert("注册失败")
+            console.log(error);
+        });
+    }
+
+
 
     render() {
         return (
@@ -25,11 +47,14 @@ class  RegisterForm extends React.Component {
                 name="normal_login"
                 className="login-form"
                 initialValues= { {
+                    username:'',
+                    password:'',
+                    confirm:'',
+                    email:'',
                     remember: true
-                    ,
                 }
                 }
-                // onFinish={this.onFinish()}
+                onFinish={this.onFinish}
             >
                 <Form.Item
                     name="username"
@@ -39,6 +64,7 @@ class  RegisterForm extends React.Component {
                             message: 'Please input your Username!',
                         },
                     ]}
+                    help="字母和数字组合"
                 >
                     <Input prefix={<UserOutlined className="site-form-item-icon"/>} placeholder="Username"/>
                 </Form.Item>
@@ -61,6 +87,7 @@ class  RegisterForm extends React.Component {
                             message: 'Please input your Password!',
                         },
                     ]}
+                    help="字母和数字组合，至少八位"
                 >
                     <Input
                         prefix={<LockOutlined className="site-form-item-icon"/>}
@@ -69,17 +96,17 @@ class  RegisterForm extends React.Component {
                     />
                 </Form.Item>
                 <Form.Item
-                    name="confirmpassword"
+                    name="confirm"
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your Password!',
+                            message: 'Please confirm your Password!',
                         },
                     ]}
                 >
                     <Input
                         prefix={<LockOutlined className="site-form-item-icon"/>}
-                        type="confirmpassword"
+                        type="password"
                         placeholder="confirm password"
                     />
                 </Form.Item>

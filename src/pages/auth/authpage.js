@@ -5,7 +5,6 @@ import { Image} from 'antd';
 import {Route} from "react-router-dom";
 import LoginForm from "./login";
 import RegisterForm from "./register";
-import {render} from "@testing-library/react";
 
 
 class AuthPage extends React.Component {

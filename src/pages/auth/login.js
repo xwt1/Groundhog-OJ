@@ -3,22 +3,27 @@ import axios from "axios";
 import {Button, Checkbox, Form, Input} from "antd";
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
 import {Link} from "react-router-dom";
+import {HOST_URL} from "../../utils/utils";
+import {repeat} from "redux-logger/src/helpers";
 
 
 class LoginForm extends React.Component {
 
-
-    // onFinish(values){
-    //     console.log('Received values of form: ', values);
-    //     axios.post("http://localhost:3000/api/register", {
-    //         username: values.username,
-    //         password: values.password
-    //     }).then(response => {
-    //         console.log(response)
-    //     }).catch(error => {
-    //         console.log(error);
-    //     });
-    // }
+    onFinish = (values) => {
+        // console.log('Received values of form: ', values);
+        axios.post(HOST_URL+'/api/register', {
+            username: values.username,
+            password: values.password
+        }).then(response => {
+            if (response.status===200){
+                localStorage.setItem('jwt',response.data.jwt)
+                this.props.history.replace('/home')
+            }
+        }).catch(error => {
+            alert("登录失败")
+            console.log(error);
+        });
+    }
 
     render() {
         return (
@@ -27,10 +32,9 @@ class LoginForm extends React.Component {
                 className="login-form"
                 initialValues= { {
                     remember: true
-                    ,
                 }
                 }
-                // onFinish={this.onFinish()}
+                onFinish={this.onFinish}
             >
                 <Form.Item
                     name="username"
@@ -69,10 +73,10 @@ class LoginForm extends React.Component {
                 </Form.Item>
 
                 <Form.Item>
-                    <Button type="primary" htmlType="submit" className="login-form-button">
+                    <Button type="primary"  htmlType="submit" className="login-form-button">
                         Log in
                     </Button>
-                    Or <Link to='/auth/register'>register now!</Link>
+                    Or <Link to='/auth/register' >register now!</Link>
 
                 </Form.Item>
             </Form>
