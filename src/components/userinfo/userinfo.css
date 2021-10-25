@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+*{
+    font-family: "Quicksand";
+    color: hotpink;
+}
+
+.userinfo{
+    /*display: block;*/
+    text-align: center;
+    /*justify-content: center;*/
+}
+
+.userinfo-text{
+    font-size: 50px;
+    padding: 10px 16px;
+    margin: 20px 0;
+    border-bottom: 1px solid #fafafa;
+    /*align-items: center;*/
+    text-align: center;
+}
+
+.userinfo-text:hover{
+    box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
+}
+

@@ -9,13 +9,16 @@ import {HOST_URL} from "../../utils/utils";
 class LoginForm extends React.Component {
 
     onFinish = (values) => {
-        // console.log('Received values of form: ', values);
-        axios.post(HOST_URL+'/api/register', {
+        console.log('Received values of form: ', values);
+        // const response = 0
+        // localStorage.setItem('jwt', response.data.jwt)
+        // this.props.history.replace('/home')
+        axios.post(HOST_URL + '/api/register', {
             username: values.username,
             password: values.password
         }).then(response => {
-            if (response.status===200){
-                localStorage.setItem('jwt',response.data.jwt)
+            if (response.status === 200) {
+                localStorage.setItem('jwt', response.data.jwt)
                 this.props.history.replace('/home')
             }
         }).catch(error => {
@@ -29,10 +32,13 @@ class LoginForm extends React.Component {
             <Form
                 name="normal_login"
                 className="login-form"
-                initialValues= { {
-                    remember: true
+                initialValues={{
+                    remember: true,
+                    // username: "",
+                    // password: ""
                 }
                 }
+
                 onFinish={this.onFinish}
             >
                 <Form.Item
@@ -72,10 +78,10 @@ class LoginForm extends React.Component {
                 </Form.Item>
 
                 <Form.Item>
-                    <Button type="primary"  htmlType="submit" className="login-form-button">
+                    <Button type="primary" htmlType="submit" className="login-form-button">
                         Log in
                     </Button>
-                    Or <Link to='/auth/register' >register now!</Link>
+                    Or <Link to='/auth/register'>register now!</Link>
 
                 </Form.Item>
             </Form>

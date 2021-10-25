@@ -1,78 +1,60 @@
-import { Avatar,  DatePicker} from 'antd';
+import {Button,Avatar, DatePicker, Image} from 'antd';
 
-import React from 'react';
+import React, {useState} from 'react';
+import useFetch from "./useFetch";
+import '../userinfo/userinfo.css'
+import {Route,Switch,Link} from "react-router-dom";
+import Userinfochange from "./Userinfochange";
+// import {hashHistory} from 'react-router'
 
-import { AntDesignOutlined } from '@ant-design/icons';
-
-
-class UserInfo extends React.Component {
-    state={
-        txt:'',
-        content:'',
-        sex:''
-    }
-    handleChange=e=>{
-        this.setState({
-            txt:e.target.value
-        })
-    }
-    handleContent=e=>{
-        this.setState({
-            content:e.target.value
-        })
-    }
-    handleSex=e=>{
-        this.setState({
-            sex:e.target.value
-        })
-    }
-
-    render() {
-        return (
-            <div>
-                <Avatar
-                    size={{xs:24,sm:32,md:40,lg:64,xl:80,xxl:100}}
-                    icon={<AntDesignOutlined/>}
-                />
-                <br/>
-                {/*文本框*/}
-                <input placeholder={"ID"} type={"text"} value={this.state.txt} onChange={this.handleChange}/>
-                <br/>
-                <input addonBefore={"123"} placeholder={"姓名"} type={"text"} value={this.state.txt} onChange={this.handleChange}/>
-                <br/>
-                {/*下拉框*/}
-                <select value={this.state.sex} onChange={this.handleSex}>
-                    <option value={"male"}>男</option>
-                    <option value={"female"}>女</option>
-                </select>
-                <br/>
-                <DatePicker
-                    dateRender={current => {
-                        const style = {};
-                        if (current.date() === 1) {
-                            style.border = '1px solid #1890ff';
-                            style.borderRadius = '50%';
+const UserInfo =()=> {
+    // 是用来获取用户信息的函数
+    // const {data:users, isPending ,error} = useFetch('/api/v/user')
+    const {data: users, isPending, error} = useFetch('http://localhost:8000/user');
+    // var data = {id:users.id,name:users.name,email:users.email};
+    // var path = {
+    //     pathname:'/home/userinfo/Userinfochange',
+    //     state:data,
+    // }
+    // const id = users.id;
+    return (
+        <Switch>
+            <Route exact path="/home/userinfo" component={() => {
+                return (<div className="userinfo">
+                    <Avatar
+                        size={200}
+                        src={
+                            <Image
+                                src="https://joeschmoe.io/api/v1/random"
+                                style={{
+                                    width: 100,
+                                }}
+                            />
                         }
-                        return (
-                            <div className="ant-picker-cell-inner" style={style}>
-                                {current.date()}
-                            </div>
-                        );
-                    }}
-                />
-                <br/>
-                <input placeholder={"手机号"} type={"text"} value={this.state.txt} onChange={this.handleChange}/>
-                <br/>
-                <input placeholder={"邮箱"} type={"text"} value={this.state.txt} onChange={this.handleChange}/>
-                <br/>
-                {/*富文本框*/}
-                {/*<textarea value={this.state.content} onChange={this.handleContent}/>
-                <br/>*/}
-
-
-            </div>
-        );
-    }
+                    />
+                    <div>
+                        {
+                            users?.map((users) => (
+                                <div className="userinfo-text" key={users.id}>
+                                    <p>姓名：{users.username}</p>
+                                    <p>邮箱：{users.email}</p>
+                                    <Button size="large" href="/home/userinfo/Userinfochange">修改信息</Button>
+                                    {/*{hash}*/}
+                                    {/*<Link size="large" to="/home/userinfo/userinfochange">修改信息</Link>*/}
+                                </div>
+                            ))
+                        }
+                    </div>
+                </div>)
+            }}>
+            </Route>
+            {/*<Route exact path="/home/userinfo/Userinfochange/:id" component={Userinfochange} >*/}
+            <Route exact path="/home/userinfo/Userinfochange" >
+                <Userinfochange/>
+            </Route>
+        </Switch>
+    )
 }
+
 
 export default UserInfo ;

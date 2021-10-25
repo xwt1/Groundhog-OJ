@@ -1,5 +1,5 @@
 
-import HomePage from "../pages/app/main";
+import HomePage from "../pages/app/home";
 
 const normalRoutes = [
     {

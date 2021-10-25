@@ -7,15 +7,14 @@ import {HOST_URL} from "../../utils/utils";
 class CheckLogin extends React.Component{
 
     componentWillMount() {
-        if (!localStorage.getItem('jwt')){
+        if (!localStorage.getItem('jwt')) {
             this.props.history.replace('/auth/login')
-        }else{
+        } else {
             //向后端发请求拿用户信息
-            axios.get(HOST_URL+'/api/user/status',{
-            }).then(response => {
+            axios.get(HOST_URL + '/api/user/status', {}).then(response => {
                 console.log(response.data)
                 this.props.UpdateUserInfo(response.data.userinfo)
-            this.props.history.replace('/home')
+                this.props.history.replace('/home')
             }).catch(error => {
                 alert("获取用户信息失败")
                 console.log(error);
