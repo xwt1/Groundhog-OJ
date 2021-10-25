@@ -20,12 +20,26 @@ class HomePage extends React.Component {
         super(props);
         this.state = {
             collapsed: false,
-            IsModalVisible: false
+            IsModalVisible: false,
+            avatarConfirmLoading:false,
+            avatarConfirmText:'',
         };
     }
 
     showModal = () => {
         this.setState({IsModalVisible: true})
+        this.setState({avatarConfirmLoading: true})
+        this.setState({avatarConfirmText: '3'})
+        setTimeout(()=>{
+            this.setState({avatarConfirmText: '2'})
+            setTimeout(()=>{
+                this.setState({avatarConfirmText: '1'})
+                setTimeout(()=>{
+                    this.setState({avatarConfirmLoading: false})
+                    this.setState({avatarConfirmText: 'ok'})
+                },1000)
+            },1000)
+        }, 1000);
     }
 
 
@@ -40,7 +54,9 @@ class HomePage extends React.Component {
 
     handleOk = () => {
         this.setState({IsModalVisible: false})
-    }
+        localStorage.removeItem('jwt')
+        this.props.history.replace('/auth/login')
+   }
 
     avatarClick = () => {
         this.showModal()
@@ -80,10 +96,10 @@ class HomePage extends React.Component {
                             <Avatar className="avatar" src="https://joeschmoe.io/api/v1/random"/>
                         </div>
                         <Modal title="Basic Modal" visible={this.state.IsModalVisible} onOk={this.handleOk}
-                               onCancel={this.handleCancel}>
-                            <p>Some contents...</p>
-                            <p>Some contents...</p>
-                            <p>Some contents...</p>
+                               onCancel={this.handleCancel} confirmLoading={this.state.avatarConfirmLoading} okText={this.state.avatarConfirmText}>
+
+                            <p>确定要退出吗？</p>
+
                         </Modal>
 
 
