@@ -1,0 +1,104 @@
+{
+  "problem": {
+    "problems": [
+      {
+        "id": "1",
+        "name": "计算1+1",
+        "content": "请计算1+1",
+        "difficulty": "easy",
+        "answer": "2",
+        "status": true
+      },
+      {
+        "id": "2",
+        "name": "计算1+1",
+        "content": "请计算1+1",
+        "difficulty": "easy",
+        "answer": "2",
+        "status": false
+      },
+      {
+        "id": "3",
+        "name": "计算1+1",
+        "content": "请计算1+1",
+        "difficulty": "easy",
+        "answer": "2",
+        "status": true
+      },
+      {
+        "id": "4",
+        "name": "计算1+1",
+        "content": "请计算1+1",
+        "difficulty": "easy",
+        "answer": "2",
+        "status": false
+      },
+      {
+        "id": "5",
+        "name": "计算1+1",
+        "content": "请计算1+1",
+        "difficulty": "easy",
+        "answer": "2",
+        "status": true
+      }
+    ],
+    "err": "ok"
+  },
+  "userstatus": {
+    "userinfo": {
+      "username": "xwt",
+      "email": "asdjklj@email.com"
+    },
+    "err": "ok"
+  },
+  "user": {
+    "username": "12312",
+    "password": "42342",
+    "email": "234234"
+  },
+  "answer": {
+
+  },
+  "problems": [
+    {
+      "id": "1",
+      "name": "计算1+1",
+      "content": "请计算1+1",
+      "difficulty": "easy",
+      "answer": "2",
+      "status": true
+    },
+    {
+      "id": "2",
+      "name": "计算1+1",
+      "content": "请计算1+1",
+      "difficulty": "easy",
+      "answer": "2",
+      "status": false
+    },
+    {
+      "id": "3",
+      "name": "计算1+1",
+      "content": "请计算1+1",
+      "difficulty": "easy",
+      "answer": "2",
+      "status": true
+    },
+    {
+      "id": "4",
+      "name": "计算1+1",
+      "content": "请计算1+1",
+      "difficulty": "easy",
+      "answer": "2",
+      "status": false
+    },
+    {
+      "id": "5",
+      "name": "计算1+1",
+      "content": "请计算1+1",
+      "difficulty": "easy",
+      "answer": "2",
+      "status": true
+    }
+  ]
+}
