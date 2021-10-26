@@ -1,4 +1,5 @@
 import {useState,useEffect} from 'react';
+import axios from "axios";
 
 const useFetch = (url) => {
     const [data, setData] = useState(null)
@@ -22,6 +23,7 @@ const useFetch = (url) => {
             .catch(err => {
                 setIsPending(false);
                 setError(err.message);
+                console.log(err)
             })
     }, [url]);
 

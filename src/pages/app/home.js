@@ -1,5 +1,5 @@
 import React from "react";
-import {Layout, Menu, Breadcrumb, Avatar, Modal} from 'antd';
+import {Layout, Menu, Breadcrumb, Avatar, Modal, Image, Button} from 'antd';
 import {
     DesktopOutlined,
     PieChartOutlined,
@@ -9,6 +9,8 @@ import ProblemList from "../../components/problemlist/problemList";
 import './main.css'
 import UserInfo from "../../components/userinfo/userinfo";
 import Welcome from "../../components/welcome/welcome";
+import ProblemDetail from "../../components/problemdetail/problemdetail";
+import Userinfochange from "../../components/userinfo/Userinfochange";
 
 
 const {Header, Content, Footer, Sider} = Layout;
@@ -59,7 +61,7 @@ class HomePage extends React.Component {
                                 this.props.history.push(`/home/userinfo`);
                                 break;
                             case '2':
-                                this.props.history.push(`/home/problem`);
+                                this.props.history.push(`/home/problems`);
                                 break;
                             default:
                                 console.log('default')
@@ -86,8 +88,6 @@ class HomePage extends React.Component {
                             <p>Some contents...</p>
                             <p>Some contents...</p>
                         </Modal>
-
-
                     </Header>
                     <Content style={{margin: '0 16px'}}>
                         <Breadcrumb style={{margin: '16px 0'}}>
@@ -95,9 +95,10 @@ class HomePage extends React.Component {
                         </Breadcrumb>
                         <div className="site-layout-background" style={{padding: 24, minHeight: 360}}>
                             <Switch>
-
-                                <Route path="/home/problem" component={ProblemList}/>
-                                <Route path="/home/userinfo" component={UserInfo}/>
+                                <Route exact path="/home/userinfo/moddify" component={Userinfochange}/>
+                                <Route exact path="/home/userinfo" component={UserInfo}/>
+                                <Route exact path="/home/problem/detail" component={ProblemDetail}/>
+                                <Route path="/home/problems" component={ProblemList}/>
                                 <Route path="/home/welcome" component={Welcome}/>
                                 <Redirect to='/home/welcome'/>
                             </Switch>

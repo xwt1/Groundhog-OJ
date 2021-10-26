@@ -1,60 +1,58 @@
-import {Button,Avatar, DatePicker, Image} from 'antd';
+import {Button, Avatar, DatePicker, Image} from 'antd';
 
-import React, {useState} from 'react';
-import useFetch from "./useFetch";
+import React, {useEffect, useState} from 'react';
 import '../userinfo/userinfo.css'
-import {Route,Switch,Link} from "react-router-dom";
+import {Route, Switch, Link} from "react-router-dom";
 import Userinfochange from "./Userinfochange";
-// import {hashHistory} from 'react-router'
+import {HOST_URL} from "../../utils/utils";
+import axios from "axios";
 
-const UserInfo =()=> {
-    // 是用来获取用户信息的函数
-    // const {data:users, isPending ,error} = useFetch('/api/v/user')
-    const {data: users, isPending, error} = useFetch('http://localhost:8000/user');
-    // var data = {id:users.id,name:users.name,email:users.email};
-    // var path = {
-    //     pathname:'/home/userinfo/Userinfochange',
-    //     state:data,
-    // }
-    // const id = users.id;
+
+const UserInfo = () => {
+    //初始为空对象
+    const [userinfo, setUserInfo] = useState({});
+    //获取用户信息,  useEffect第二个参数为空表示这个函数只执行一次
+    useEffect(() => {
+        //同步执行
+        axios.get(HOST_URL + '/api/user/status', {
+            headers: {
+                'Authorization': 'Bearer' + localStorage.getItem('jwt') || ''
+            }
+        }).then(res => {
+            if (res.data.err === 'ok') {
+                setUserInfo(res.data.userinfo)
+            } else {
+                alert("获取用户信息失败")
+            }
+        }).catch(err => {
+            console.log(err)
+            alert("网络请求异常")
+        })
+    }, [])
+
     return (
-        <Switch>
-            <Route exact path="/home/userinfo" component={() => {
-                return (<div className="userinfo">
-                    <Avatar
-                        size={200}
-                        src={
-                            <Image
-                                src="https://joeschmoe.io/api/v1/random"
-                                style={{
-                                    width: 100,
-                                }}
-                            />
-                        }
+        <div className="userinfo">
+            <Avatar
+                size={200}
+                src={
+                    <Image
+                        src="https://joeschmoe.io/api/v1/random"
+                        style={{
+                            width: 100,
+                        }}
                     />
-                    <div>
-                        {
-                            users?.map((users) => (
-                                <div className="userinfo-text" key={users.id}>
-                                    <p>姓名：{users.username}</p>
-                                    <p>邮箱：{users.email}</p>
-                                    <Button size="large" href="/home/userinfo/Userinfochange">修改信息</Button>
-                                    {/*{hash}*/}
-                                    {/*<Link size="large" to="/home/userinfo/userinfochange">修改信息</Link>*/}
-                                </div>
-                            ))
-                        }
-                    </div>
-                </div>)
-            }}>
-            </Route>
-            {/*<Route exact path="/home/userinfo/Userinfochange/:id" component={Userinfochange} >*/}
-            <Route exact path="/home/userinfo/Userinfochange" >
-                <Userinfochange/>
-            </Route>
-        </Switch>
+                }
+            />
+            <div>
+                <div className="userinfo-text">
+                    <p>姓名：{userinfo.username}</p>
+                    <p>邮箱：{userinfo.email}</p>
+                    <Button size="large" href="/home/userinfo/moddify">修改信息</Button>
+                </div>
+            </div>
+        </div>
     )
 }
 
 
-export default UserInfo ;
+export default UserInfo;

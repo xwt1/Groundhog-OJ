@@ -1,85 +1,57 @@
-import {List, message, Avatar} from 'antd';
+import {List, message, Avatar, Spin} from 'antd';
 import React from 'react';
+import axios from "axios";
+import {Link, Route, Switch} from "react-router-dom";
+import ProblemDetail from "../problemdetail/problemdetail";
+import {Redirect} from "react-router";
+import {HOST_URL} from "../../utils/utils";
 
-
-// const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
 
 class ProblemList extends React.Component {
-    state = {
-        data: [
 
-        ],
+    state = {
+        problems: [],
         loading: false,
         hasMore: true,
-
     };
 
-    componentDidMount() {
-        this.fetchData(res => {
-            this.setState({
-                data: res.results,
-            });
-        });
-        for (let i = 0; i < 23; i++) {
-            this.state.data.push({
-                href: 'https://ant.design',
-                title: `ant design part ${i}`,
-                avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-                description:
-                    'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-                content:
-                    'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-            })
-        }
+    constructor(props) {
+        super(props);
+        axios.get(HOST_URL + '/api/problem'
+        ).then(res => {
+            if (res.data.err==='ok'){
+                this.setState({problems: res.data.problems})
+            }else{
+                alert("获取数据出错")
+            }
+
+        }).catch(err =>{
+            console.log("failed to get problem list")
+            console.log(err.response)
+        })
     }
-
-    fetchData = callback => {
-
-    };
-
-    handleInfiniteOnLoad = () => {
-        let {data} = this.state;
-        this.setState({
-            loading: true,
-        });
-        if (data.length > 14) {
-            message.warning('Infinite List loaded all');
-            this.setState({
-                hasMore: false,
-                loading: false,
-            });
-            return;
-        }
-        this.fetchData(res => {
-            data = data.concat(res.results);
-            this.setState({
-                data,
-                loading: false,
-            });
-        });
-    };
 
     render() {
         return (
             <List
                 itemLayout={"horizontal"}
-                dataSource={this.state.data}
+                dataSource={this.state.problems}
                 pagination={{
-                    onChange:page=>{
+                    onChange: page => {
                         console.log(page);
                     },
-                    pageSize:8,
+                    pageSize: 15,
                 }}
-                renderItem={item=>(
+                renderItem={item => (
                     <List.Item>
                         <List.Item.Meta
-                            avatar={<Avatar src={item.avatar} />}
-                            title={<a href={item.href}>{item.title}</a>}
-                            description={item.description}
-
-
+                            avatar={<Avatar src={item.status ? "/right.png" : "/wrong.png"}/>}
+                            title={
+                                <Link
+                                    to={'/home/problem/detail?id=' + item.id}> {"题目" + item.id + " " + item.difficulty}</Link>
+                            }
+                            description={item.name}
                         />
-
                     </List.Item>
                 )}
             />
