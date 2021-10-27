@@ -1,17 +1,15 @@
-import {Button, Avatar, DatePicker, Image} from 'antd';
+import {Button, Avatar, Image} from 'antd';
 
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import '../userinfo/userinfo.css'
-import {Route, Switch, Link} from "react-router-dom";
-import Userinfochange from "./Userinfochange";
-import {HOST_URL} from "../../utils/utils";
-import axios from "axios";
+import {useSelector} from "react-redux";
+import {createUpdateInfoAction} from "../../redux/actions/Userinfo";
 
 
 const UserInfo = () => {
-    //初始为空对象
-    const [userinfo, setUserInfo] = useState({});
-    //获取用户信息,  useEffect第二个参数为空表示这个函数只执行一次
+    const userinfo = useSelector(state => state.userinfo)
+    {/*
+       //获取用户信息,  useEffect第二个参数为空表示这个函数只执行一次
     useEffect(() => {
         //同步执行
         axios.get(HOST_URL + '/api/user/status', {
@@ -29,7 +27,8 @@ const UserInfo = () => {
             alert("网络请求异常")
         })
     }, [])
-
+    */
+    }
     return (
         <div className="userinfo">
             <Avatar

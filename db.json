@@ -1,4 +1,8 @@
 {
+  "jwt": {
+    "username": "linfp",
+    "password": "123123"
+  },
   "problem": {
     "problems": [
       {
@@ -53,12 +57,10 @@
   },
   "user": {
     "username": "12312",
-    "password": "42342",
-    "email": "234234"
+    "password": "42352",
+    "email": "13123"
   },
-  "answer": {
-
-  },
+  "answer": {},
   "problems": [
     {
       "id": "1",

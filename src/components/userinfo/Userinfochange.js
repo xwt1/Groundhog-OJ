@@ -7,7 +7,7 @@ import {useState} from "react";
 import useFetch from "./useFetch";
 import {useHistory} from "react-router-dom";
 import axios from "axios";
-import {HOST_URL} from "../../utils/utils";
+import {getUserInfo, HOST_URL} from "../../utils/utils";
 
 
 const Userinfochange = () => {
@@ -20,7 +20,7 @@ const Userinfochange = () => {
     const handlesubmit = (e) => {
         e.preventDefault();
         const users = {username, password, email}
-        axios.patch(HOST_URL + '/api/user/', {
+        axios.put(HOST_URL + '/api/user/', {
             username:username,
             password:password,
             email:email,
@@ -30,15 +30,14 @@ const Userinfochange = () => {
                 'Authorization': 'Bearer' + localStorage.getItem('jwt') || ''
             },
         }).then(res => {
-            alert('修改成功')
-            history.push('/home/userinfo')
-            // if (res.data.err==='ok'){
-            //     alert('修改成功')
-            //     history.push('/home/user')
-            // }else {
-            //     console.log(res)
-            //     alert('修改失败')
-            // }
+            if (res.data.err==='ok'){
+                alert('修改成功')
+                getUserInfo()
+                history.push('/home/userinfo')
+            }else {
+                console.log(res)
+                alert('修改失败')
+            }
         }).catch(err=>{
                 alert('网络请求失败')
                 console.log(err.response)

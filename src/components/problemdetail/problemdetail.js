@@ -46,7 +46,7 @@ class ProblemDetail extends React.Component {
         })
     }
 
-    confirm=()=>{
+    confirm(e){
         axios.post(
             HOST_URL + '/api/problem/'+this.state.id,
             {
@@ -58,12 +58,15 @@ class ProblemDetail extends React.Component {
                     'Authorization' :'Bearer'+localStorage.getItem('jwt')||'',
                 }
             }
-        ).then(response=>{
-            message.success('提交成功');
-            console.log(response);
-        }).catch(error=>{
-            message.success('提交失败');
-            console.log(error)
+        ).then(res=>{
+            if (res.data.err==='ok'){
+                message.success('提交成功');
+            }else {
+                message.success('提交失败');
+            }
+        }).catch(err=>{
+            message.error('网络请求失败');
+            console.log(err)
         })
     }
 

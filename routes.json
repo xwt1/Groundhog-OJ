@@ -1,4 +1,5 @@
 {
   "/user/status" : "/userstatus",
-  "/problem/:id" : "/problems/:id"
+  "/problem/:id" : "/problems/:id",
+  "/login": "/jwt"
 }

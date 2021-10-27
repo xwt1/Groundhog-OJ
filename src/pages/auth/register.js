@@ -9,7 +9,6 @@ class  RegisterForm extends React.Component {
 
 
     onFinish = (values) => {
-        console.log('Received values of form: ', values);
         let reg = /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
         if(!reg.test(values.email)){
             alert("邮箱格式不正确");
@@ -29,13 +28,13 @@ class  RegisterForm extends React.Component {
             password: values.password,
             email: values.email,
         }).then(response => {
-            if (response.status===200){
-                localStorage.setItem('jwt',response.data.jwt)
-                this.props.history.replace('/home')
+            if (response.data.err==='ok'){
+                alert("注册成功")
+                this.props.history.replace('/auth/login')
             }
         }).catch(error => {
             alert("注册失败")
-            console.log(error);
+            console.log(error.response);
         });
     }
 

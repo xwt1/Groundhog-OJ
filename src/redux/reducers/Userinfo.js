@@ -1,9 +1,9 @@
 import {UPDATE_USER_INFO} from "../constant";
 
 
-const initialState = {};
+const initialState = {username:'default',email:'default@default.com',type:'user'};
 
-function UserInfoReducer(state=initialState, action) {
+function userinfoReducer(state=initialState, action) {
     switch (action.type) {
         case UPDATE_USER_INFO:
             return {...state,...action.data}
@@ -12,4 +12,4 @@ function UserInfoReducer(state=initialState, action) {
     }
 }
 
-export default UserInfoReducer
+export default userinfoReducer

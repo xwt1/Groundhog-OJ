@@ -1,16 +1,18 @@
 import React from "react";
-import {Layout, Menu, Breadcrumb, Avatar, Modal, Image, Button} from 'antd';
+import {Layout, Menu, Breadcrumb, Avatar, Modal,  Upload} from 'antd';
 import {
     DesktopOutlined,
     PieChartOutlined,
 } from '@ant-design/icons';
 import {Route, Redirect, Switch} from "react-router-dom";
 import ProblemList from "../../components/problemlist/problemList";
-import './main.css'
+import './home.css'
 import UserInfo from "../../components/userinfo/userinfo";
 import Welcome from "../../components/welcome/welcome";
 import ProblemDetail from "../../components/problemdetail/problemdetail";
 import Userinfochange from "../../components/userinfo/Userinfochange";
+import {connect} from "react-redux";
+import UploadProblem from "../../components/uploadproblem/uploadproblem";
 
 
 const {Header, Content, Footer, Sider} = Layout;
@@ -23,12 +25,26 @@ class HomePage extends React.Component {
         super(props);
         this.state = {
             collapsed: false,
-            IsModalVisible: false
+            IsModalVisible: false,
+            avatarConfirmLoading:false,
+            avatarConfirmText:'',
         };
     }
 
     showModal = () => {
         this.setState({IsModalVisible: true})
+        this.setState({avatarConfirmLoading: true})
+        this.setState({avatarConfirmText: '3'})
+        setTimeout(()=>{
+            this.setState({avatarConfirmText: '2'})
+            setTimeout(()=>{
+                this.setState({avatarConfirmText: '1'})
+                setTimeout(()=>{
+                    this.setState({avatarConfirmLoading: false})
+                    this.setState({avatarConfirmText: 'ok'})
+                },1000)
+            },1000)
+        }, 1000);
     }
 
 
@@ -43,14 +59,22 @@ class HomePage extends React.Component {
 
     handleOk = () => {
         this.setState({IsModalVisible: false})
+        localStorage.removeItem('jwt')
+        this.props.history.replace('/auth/login')
     }
 
     avatarClick = () => {
         this.showModal()
     }
-
     render() {
+        const isAdmin=(this.props.userinfo==='admin');
         const {collapsed} = this.state;
+        let postProblem;
+        if (true){
+            postProblem =  <Menu.Item key="3" icon={<DesktopOutlined/>}>上传题目</Menu.Item>
+        }else {
+            postProblem = <div></div>
+        }
         return (
             <Layout style={{minHeight: '100vh'}}>
                 <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
@@ -63,6 +87,9 @@ class HomePage extends React.Component {
                             case '2':
                                 this.props.history.push(`/home/problems`);
                                 break;
+                            case '3':
+                                this.props.history.push(`/home/upload`);
+                                break;
                             default:
                                 console.log('default')
                                 break;
@@ -74,6 +101,7 @@ class HomePage extends React.Component {
                         <Menu.Item key="2" icon={<DesktopOutlined/>}>
                             题目列表
                         </Menu.Item>
+                        {postProblem}
                     </Menu>
                 </Sider>
                 <Layout className="site-layout">
@@ -82,33 +110,36 @@ class HomePage extends React.Component {
                         <div onClick={this.avatarClick}>
                             <Avatar className="avatar" src="https://joeschmoe.io/api/v1/random"/>
                         </div>
-                        <Modal title="Basic Modal" visible={this.state.IsModalVisible} onOk={this.handleOk}
-                               onCancel={this.handleCancel}>
-                            <p>Some contents...</p>
-                            <p>Some contents...</p>
-                            <p>Some contents...</p>
+                        <Modal title="退出" visible={this.state.IsModalVisible} onOk={this.handleOk}
+                               onCancel={this.handleCancel} confirmLoading={this.state.avatarConfirmLoading} okText={this.state.avatarConfirmText}>
+
+                            <p>确定要退出吗？</p>
+
                         </Modal>
                     </Header>
                     <Content style={{margin: '0 16px'}}>
                         <Breadcrumb style={{margin: '16px 0'}}>
                             <Breadcrumb.Item> </Breadcrumb.Item>
                         </Breadcrumb>
-                        <div className="site-layout-background" style={{padding: 24, minHeight: 360}}>
+                        <div className="site-layout-background" style={{padding: 24, height: '100%'}}>
                             <Switch>
                                 <Route exact path="/home/userinfo/moddify" component={Userinfochange}/>
                                 <Route exact path="/home/userinfo" component={UserInfo}/>
                                 <Route exact path="/home/problem/detail" component={ProblemDetail}/>
                                 <Route path="/home/problems" component={ProblemList}/>
+                                <Route path="/home/upload" component={UploadProblem}/>
                                 <Route path="/home/welcome" component={Welcome}/>
                                 <Redirect to='/home/welcome'/>
                             </Switch>
                         </div>
                     </Content>
-                    <Footer className="Footer">made by group03</Footer>
+                    <Footer style={{textAlign: 'center'}}>SE Course©2018 Created by Gruop3</Footer>
                 </Layout>
             </Layout>
         );
     }
 }
 
-export default HomePage;
+export default connect(
+    state=>({userinfo:state.userinfo}),
+    )(HomePage);

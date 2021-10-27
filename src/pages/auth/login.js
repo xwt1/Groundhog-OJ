@@ -3,22 +3,22 @@ import axios from "axios";
 import {Button, Checkbox, Form, Input} from "antd";
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
 import {Link} from "react-router-dom";
-import {HOST_URL} from "../../utils/utils";
+import {getUserInfo, HOST_URL} from "../../utils/utils";
+import {connect} from "react-redux";
+import {createUpdateInfoAction} from "../../redux/actions/Userinfo";
 
 
 class LoginForm extends React.Component {
 
     onFinish = (values) => {
-        console.log('Received values of form: ', values);
-        // const response = 0
-        // localStorage.setItem('jwt', response.data.jwt)
-        // this.props.history.replace('/home')
         axios.post(HOST_URL + '/api/register', {
             username: values.username,
             password: values.password
         }).then(response => {
-            if (response.status === 200) {
+            if (response.data.err === 'ok') {
                 localStorage.setItem('jwt', response.data.jwt)
+                //异步请求用户信息
+                getUserInfo().then(r =>{console.log(r)} )
                 this.props.history.replace('/home')
             }
         }).catch(error => {
@@ -34,8 +34,6 @@ class LoginForm extends React.Component {
                 className="login-form"
                 initialValues={{
                     remember: true,
-                    // username: "",
-                    // password: ""
                 }
                 }
 
@@ -89,7 +87,7 @@ class LoginForm extends React.Component {
     }
 }
 
-export default LoginForm;
+export default LoginForm
 
 
 
