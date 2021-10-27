@@ -20,21 +20,31 @@ class ProblemDetail extends React.Component {
         super(props);
         this.setState({})
         this.state={
-            answer:'',
-            data:{},
             id:'',
+            name:'',
+            content:'',
+            difficulty:'',
         }
         let id = querystring.parse(this.props.history.location.search.substr(1)).id
-        this.setState({id:id})
+        this.setState({id :id })
         axios.get(
-            HOST_URL + '/api/problem/'+id,
+            HOST_URL + '/api/programs/'+id ,
             {
                 headers:{
                     'Authorization' :'Bearer '+localStorage.getItem('jwt')
                 }
             }
         ).then(res=>{
-            this.setState({data:res.data})
+            console.log(res.data)
+            if (res.data.err==='ok'){
+                this.setState({
+                    id:res.data.id,
+                    name:res.data.name,
+                    content:res.data.content,
+                    difficulty:res.data.difficulty,
+                })
+            }
+
         }).catch(err=>{
             console.log(err.response)
         })
@@ -48,10 +58,10 @@ class ProblemDetail extends React.Component {
 
     confirm(e){
         axios.post(
-            HOST_URL + '/api/problem/'+this.state.id,
+            HOST_URL + '/api/programs/'+this.state.id,
             {
                 answer: ProblemDetail.answer,
-                id:ProblemDetail.num
+                id:ProblemDetail.nu
             },
             {
                 headers:{
@@ -79,11 +89,11 @@ class ProblemDetail extends React.Component {
                     column={{ xxl: 3, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
                     datSource={this.state.data}
                 >
-                    <Descriptions.Item label="题目序号">{this.state.data.id}</Descriptions.Item>
-                    <Descriptions.Item label="题目名称">{this.state.data.name}</Descriptions.Item>
-                    <Descriptions.Item label="题目难度">{this.state.data.difficulty}</Descriptions.Item>
+                    <Descriptions.Item label="题目序号">{this.state.id}</Descriptions.Item>
+                    <Descriptions.Item label="题目名称">{this.state.name}</Descriptions.Item>
+                    <Descriptions.Item label="题目难度">{this.state.difficulty}</Descriptions.Item>
                     <Descriptions.Item label="题目内容">
-                        {this.state.data.content}
+                        {this.state.content}
                         <br />
                     </Descriptions.Item>
                 </Descriptions>

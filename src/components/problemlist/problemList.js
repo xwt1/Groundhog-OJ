@@ -17,10 +17,10 @@ class ProblemList extends React.Component {
 
     constructor(props) {
         super(props);
-        axios.get(HOST_URL + '/api/problem'
+        axios.get(HOST_URL + '/api/programs'
         ).then(res => {
             if (res.data.err==='ok'){
-                this.setState({problems: res.data.problems})
+                this.setState({problems: res.data.programs})
             }else{
                 alert("获取数据出错")
             }
@@ -48,7 +48,7 @@ class ProblemList extends React.Component {
                             avatar={<Avatar src={item.status ? "/right.png" : "/wrong.png"}/>}
                             title={
                                 <Link
-                                    to={'/home/problem/detail?id=' + item.id}> {"题目" + item.id + " " + item.difficulty}</Link>
+                                    to={'/home/problem/detail?id=' + item.program_id }> {"题目" + item.program_id + " " + item.difficulty}</Link>
                             }
                             description={item.name}
                         />

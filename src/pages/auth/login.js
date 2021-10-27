@@ -3,22 +3,27 @@ import axios from "axios";
 import {Button, Checkbox, Form, Input} from "antd";
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
 import {Link} from "react-router-dom";
-import {getUserInfo, HOST_URL} from "../../utils/utils";
-import {connect} from "react-redux";
+import {HOST_URL} from "../../utils/utils";
+import jwt_decode from "jwt-decode";
 import {createUpdateInfoAction} from "../../redux/actions/Userinfo";
 
 
 class LoginForm extends React.Component {
 
     onFinish = (values) => {
-        axios.post(HOST_URL + '/api/register', {
+        axios.post(HOST_URL + '/api/login', {
             username: values.username,
             password: values.password
         }).then(response => {
             if (response.data.err === 'ok') {
                 localStorage.setItem('jwt', response.data.jwt)
-                //异步请求用户信息
-                getUserInfo().then(r =>{console.log(r)} )
+                //解析用户信息
+                let decoded = jwt_decode(response.data.jwt);
+                createUpdateInfoAction({
+                    privilege:decoded.privilege,
+                    email:decoded.email,
+                    username:decoded.username
+                })
                 this.props.history.replace('/home')
             }
         }).catch(error => {

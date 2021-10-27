@@ -4,22 +4,23 @@ import React, {useState} from 'react';
 import "./uploadproblem.css"
 import axios from "axios";
 import {getUserInfo, HOST_URL} from "../../utils/utils";
+import {useHistory} from "react-router-dom";
 
 
 const {Option} = Select
 const {TextArea} = Input
 
 const UploadProblem = () => {
-
-    const [title, setTitle] = useState('');
+    const history = useHistory()
+    const [program_name, setTitle] = useState('');
     const [difficulty, setDifficulty] = useState('');
     const [answer, setAnswer] = useState('');
     const [content,setContent] = useState('');
 
     function  handlesubmit(e){
         e.preventDefault();
-        const problem = {title, difficulty, answer,content}
-        axios.post(HOST_URL + '/api/problem/', {
+        const problem = {program_name, difficulty, answer,content}
+        axios.post(HOST_URL + '/api/programs', {
             ...problem
         },{
             headers: {
@@ -29,6 +30,7 @@ const UploadProblem = () => {
         }).then(res => {
             if (res.data.err==='ok'){
                 alert('提交成功')
+                history.go(0)
             }else {
                 console.log(res)
                 alert('提交失败')
@@ -52,7 +54,7 @@ const UploadProblem = () => {
                                 style={{margin:'10px'}}
                                 placeholder="题目标题"
                                 required
-                                value={title}
+                                value={program_name}
                                 onChange={(e) => setTitle(e.target.value)}/>
                             <Input
                                 style={{margin:'10px'}}
