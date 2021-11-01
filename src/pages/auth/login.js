@@ -6,6 +6,9 @@ import {Link} from "react-router-dom";
 import {HOST_URL} from "../../utils/utils";
 import jwt_decode from "jwt-decode";
 import {createUpdateInfoAction} from "../../redux/actions/Userinfo";
+import mapStateToProps from "react-redux/lib/connect/mapStateToProps";
+import mapDispatchToProps from "react-redux/lib/connect/mapDispatchToProps";
+import {connect} from "react-redux";
 
 
 class LoginForm extends React.Component {
@@ -20,7 +23,6 @@ class LoginForm extends React.Component {
     //
     // }
     onFinish = (values) => {
-        console.log(values)
         axios.post(HOST_URL + '/api/login', {
             Name: values.username,
             Password: values.password
@@ -30,11 +32,12 @@ class LoginForm extends React.Component {
                 localStorage.setItem('jwt', response.data.token)
                 //解析用户信息
                 let decoded = jwt_decode(response.data.token);
-                createUpdateInfoAction({
+                this.props.UpdateUserInfo({
                     privilege: decoded.privilege,
                     email: decoded.email,
-                    username: decoded.username
+                    username: decoded.name
                 })
+                console.log(decoded)
                 this.props.history.replace('/home')
             }
         }).catch(error => {
@@ -104,7 +107,8 @@ class LoginForm extends React.Component {
     }
 }
 
-export default LoginForm
+export default connect(state=>({userinfo:state.userinfo}),
+    {UpdateUserInfo:createUpdateInfoAction})(LoginForm)
 
 
 

@@ -104,7 +104,7 @@ const UploadProblem = () => {
                         </Col>
                     </Row>
                 </form>
-                <ParticlesBg type={"random"} />
+
             </div>
 
     )

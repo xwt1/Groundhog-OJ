@@ -129,7 +129,6 @@ class ProblemDetail extends React.Component {
                 <BackTop>
                     <strong >BackTop</strong>
                 </BackTop>
-                <ParticlesBg type={"random"} />
             </div>
 
         );

@@ -3,7 +3,6 @@ import {Button, Avatar, Image} from 'antd';
 import React from 'react';
 import '../userinfo/userinfo.css'
 import {useSelector} from "react-redux";
-import {createUpdateInfoAction} from "../../redux/actions/Userinfo";
 import ParticlesBg from "particles-bg";
 
 
@@ -52,7 +51,7 @@ const UserInfo = () => {
                     </div>
                 </div>
             </div>
-            <ParticlesBg type={"random"} />
+            <ParticlesBg type="random" bg={true}/>
         </div>
     )
 };

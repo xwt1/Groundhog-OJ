@@ -56,7 +56,6 @@ class ProblemList extends React.Component {
                         </List.Item>
                     )}
                 />
-                <ParticlesBg type={"random"} />
             </div>
         );
     }
