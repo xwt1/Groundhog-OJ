@@ -8,7 +8,7 @@ import useFetch from "./useFetch";
 import {useHistory} from "react-router-dom";
 import axios from "axios";
 import {getUserInfo, HOST_URL} from "../../utils/utils";
-
+import ParticlesBg from "particles-bg";
 
 const Userinfochange = () => {
 
@@ -20,10 +20,10 @@ const Userinfochange = () => {
     const handlesubmit = (e) => {
         e.preventDefault();
         const users = {username, password, email}
-        axios.put(HOST_URL + '/api/user/', {
-            username:username,
-            password:password,
-            email:email,
+        axios.put(HOST_URL + '/api/user', {
+            username:users.username,
+            password:users.password,
+            email:users.email,
         },{
             headers: {
                 'Content-Type': 'application/json',
@@ -80,6 +80,7 @@ const Userinfochange = () => {
                     }
                 >确认修改</Button>
             </Space>
+            <ParticlesBg type={"random"} />
         </form>
     )
 

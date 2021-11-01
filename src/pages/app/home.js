@@ -13,7 +13,7 @@ import ProblemDetail from "../../components/problemdetail/problemdetail";
 import Userinfochange from "../../components/userinfo/Userinfochange";
 import {connect} from "react-redux";
 import UploadProblem from "../../components/uploadproblem/uploadproblem";
-
+import ParticlesBg from 'particles-bg'
 
 const {Header, Content, Footer, Sider} = Layout;
 
@@ -121,6 +121,7 @@ class HomePage extends React.Component {
                         <Breadcrumb style={{margin: '16px 0'}}>
                             <Breadcrumb.Item> </Breadcrumb.Item>
                         </Breadcrumb>
+
                         <div className="site-layout-background" style={{padding: 24, height: '100%'}}>
                             <Switch>
                                 <Route exact path="/home/userinfo/moddify" component={Userinfochange}/>
@@ -132,7 +133,9 @@ class HomePage extends React.Component {
                                 <Redirect to='/home/welcome'/>
                             </Switch>
                         </div>
+                        {/*<ParticlesBg type={"random"} />*/}
                     </Content>
+                    {/*<ParticlesBg type={"random"} />*/}
                     <Footer style={{textAlign: 'center'}}>SE Course©2018 Created by Gruop3</Footer>
                 </Layout>
             </Layout>

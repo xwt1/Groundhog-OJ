@@ -9,20 +9,31 @@ import {createUpdateInfoAction} from "../../redux/actions/Userinfo";
 
 
 class LoginForm extends React.Component {
-
+    // constructor() {
+    //     super();
+    //     this.state={
+    //         username :'',
+    //         password :''
+    //     }
+    // }
+    // handlesubmit =(e) =>{
+    //
+    // }
     onFinish = (values) => {
+        console.log(values)
         axios.post(HOST_URL + '/api/login', {
-            username: values.username,
-            password: values.password
+            Name: values.username,
+            Password: values.password
         }).then(response => {
             if (response.data.err === 'ok') {
-                localStorage.setItem('jwt', response.data.jwt)
+                // console.log()
+                localStorage.setItem('jwt', response.data.token)
                 //解析用户信息
-                let decoded = jwt_decode(response.data.jwt);
+                let decoded = jwt_decode(response.data.token);
                 createUpdateInfoAction({
-                    privilege:decoded.privilege,
-                    email:decoded.email,
-                    username:decoded.username
+                    privilege: decoded.privilege,
+                    email: decoded.email,
+                    username: decoded.username
                 })
                 this.props.history.replace('/home')
             }
@@ -52,6 +63,7 @@ class LoginForm extends React.Component {
                             message: 'Please input your Username!',
                         },
                     ]}
+
                 >
                     <Input prefix={<UserOutlined className="site-form-item-icon"/>} placeholder="Username"/>
                 </Form.Item>

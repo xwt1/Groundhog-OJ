@@ -5,7 +5,7 @@ import {Link, Route, Switch} from "react-router-dom";
 import ProblemDetail from "../problemdetail/problemdetail";
 import {Redirect} from "react-router";
 import {HOST_URL} from "../../utils/utils";
-
+import ParticlesBg from "particles-bg";
 
 class ProblemList extends React.Component {
 
@@ -33,28 +33,31 @@ class ProblemList extends React.Component {
 
     render() {
         return (
-            <List
-                itemLayout={"horizontal"}
-                dataSource={this.state.problems}
-                pagination={{
-                    onChange: page => {
-                        console.log(page);
-                    },
-                    pageSize: 15,
-                }}
-                renderItem={item => (
-                    <List.Item>
-                        <List.Item.Meta
-                            avatar={<Avatar src={item.status ? "/right.png" : "/wrong.png"}/>}
-                            title={
-                                <Link
-                                    to={'/home/problem/detail?id=' + item.program_id }> {"题目" + item.program_id + " " + item.difficulty}</Link>
-                            }
-                            description={item.name}
-                        />
-                    </List.Item>
-                )}
-            />
+            <div>
+                <List
+                    itemLayout={"horizontal"}
+                    dataSource={this.state.problems}
+                    pagination={{
+                        onChange: page => {
+                            console.log(page);
+                        },
+                        pageSize: 15,
+                    }}
+                    renderItem={item => (
+                        <List.Item>
+                            <List.Item.Meta
+                                avatar={<Avatar src={item.status ? "/right.png" : "/wrong.png"}/>}
+                                title={
+                                    <Link
+                                        to={'/home/problem/detail?id=' + item.program_id }> {"题目" + item.program_id + " " + item.difficulty}</Link>
+                                }
+                                description={item.name}
+                            />
+                        </List.Item>
+                    )}
+                />
+                <ParticlesBg type={"random"} />
+            </div>
         );
     }
 }

@@ -4,6 +4,7 @@ import React from 'react';
 import '../userinfo/userinfo.css'
 import {useSelector} from "react-redux";
 import {createUpdateInfoAction} from "../../redux/actions/Userinfo";
+import ParticlesBg from "particles-bg";
 
 
 const UserInfo = () => {
@@ -30,28 +31,31 @@ const UserInfo = () => {
     */
     }
     return (
-        <div className="userinfo">
-            <Avatar
-                size={200}
-                src={
-                    <Image
-                        src="https://joeschmoe.io/api/v1/random"
-                        style={{
-                            width: 100,
-                        }}
-                    />
-                }
-            />
-            <div>
-                <div className="userinfo-text">
-                    <p>姓名：{userinfo.username}</p>
-                    <p>邮箱：{userinfo.email}</p>
-                    <Button size="large" href="/home/userinfo/moddify">修改信息</Button>
+        <div>
+            <div className="userinfo">
+                <Avatar
+                    size={200}
+                    src={
+                        <Image
+                            src="https://joeschmoe.io/api/v1/random"
+                            style={{
+                                width: 100,
+                            }}
+                        />
+                    }
+                />
+                <div>
+                    <div className="userinfo-text">
+                        <p>姓名：{userinfo.username}</p>
+                        <p>邮箱：{userinfo.email}</p>
+                        <Button size="large" href="/home/userinfo/moddify">修改信息</Button>
+                    </div>
                 </div>
             </div>
+            <ParticlesBg type={"random"} />
         </div>
     )
-}
+};
 
 
 export default UserInfo;

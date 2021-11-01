@@ -11,6 +11,7 @@ import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
 import * as querystring from "querystring";
 import {HOST_URL} from "../../utils/utils";
+import ParticlesBg from "particles-bg";
 
 
 
@@ -43,8 +44,14 @@ class ProblemDetail extends React.Component {
                     content:res.data.content,
                     difficulty:res.data.difficulty,
                 })
+                // this.state={
+                //     id:res.data.id,
+                //     name:res.data.name,
+                //     content:res.data.content,
+                //     difficulty:res.data.difficulty,
+                // }
             }
-
+            console.log(this.state.id)
         }).catch(err=>{
             console.log(err.response)
         })
@@ -56,23 +63,29 @@ class ProblemDetail extends React.Component {
         })
     }
 
-    confirm(e){
+    confirm=e=>{
+        // console.log(this.state)
+        // console.log(localStorage.getItem('jwt'))
         axios.post(
             HOST_URL + '/api/programs/'+this.state.id,
             {
+                // program_id: this.state.id,
                 answer: ProblemDetail.answer,
-                id:ProblemDetail.nu
             },
             {
                 headers:{
                     'Authorization' :'Bearer'+localStorage.getItem('jwt')||'',
                 }
             }
-        ).then(res=>{
-            if (res.data.err==='ok'){
+        ).then(Res=>{
+            console.log(Res.data.err)
+            // console.log(Res.data.status)
+            if (Res.data.err==='ok'){
                 message.success('提交成功');
+                //message.success();
+                console.log(Res.data.status)
             }else {
-                message.success('提交失败');
+               message.success('提交失败');
             }
         }).catch(err=>{
             message.error('网络请求失败');
@@ -116,7 +129,7 @@ class ProblemDetail extends React.Component {
                 <BackTop>
                     <strong >BackTop</strong>
                 </BackTop>
-
+                <ParticlesBg type={"random"} />
             </div>
 
         );
