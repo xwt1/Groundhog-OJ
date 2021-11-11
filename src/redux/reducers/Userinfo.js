@@ -1,7 +1,7 @@
 import {UPDATE_USER_INFO} from "../constant";
 
 
-const initialState = {username:'default',email:'default@default.com',type:'user'};
+const initialState = {username:'default',email:'default@default.com',type:'user',id:0};
 
 function userinfoReducer(state=initialState, action) {
     switch (action.type) {

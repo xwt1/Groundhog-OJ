@@ -1,6 +1,6 @@
 
 import React from 'react';
-import ParticlesBg from "particles-bg";
+
 
 
 class Welcome extends React.Component {
@@ -13,7 +13,6 @@ class Welcome extends React.Component {
 
                 Have a good time.
                 </div>
-                <ParticlesBg type="random" bg={true}/>
             </div>
         );
     }

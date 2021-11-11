@@ -68,7 +68,7 @@ class HomePage extends React.Component {
         this.showModal()
     }
     render() {
-        const isAdmin=(this.props.userinfo.privilege==='admin');
+        const isAdmin=(this.props.userinfo.privilege===1);
         const {collapsed} = this.state;
         let postProblem;
         if (isAdmin){

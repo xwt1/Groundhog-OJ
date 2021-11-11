@@ -8,27 +8,7 @@ import ParticlesBg from "particles-bg";
 
 const UserInfo = () => {
     const userinfo = useSelector(state => state.userinfo)
-    {/*
-       //获取用户信息,  useEffect第二个参数为空表示这个函数只执行一次
-    useEffect(() => {
-        //同步执行
-        axios.get(HOST_URL + '/api/user/status', {
-            headers: {
-                'Authorization': 'Bearer' + localStorage.getItem('jwt') || ''
-            }
-        }).then(res => {
-            if (res.data.err === 'ok') {
-                setUserInfo(res.data.userinfo)
-            } else {
-                alert("获取用户信息失败")
-            }
-        }).catch(err => {
-            console.log(err)
-            alert("网络请求异常")
-        })
-    }, [])
-    */
-    }
+
     return (
         <div>
             <div className="userinfo">
@@ -51,7 +31,6 @@ const UserInfo = () => {
                     </div>
                 </div>
             </div>
-            <ParticlesBg type="random" bg={true}/>
         </div>
     )
 };

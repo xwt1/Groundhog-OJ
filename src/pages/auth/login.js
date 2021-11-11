@@ -6,8 +6,7 @@ import {Link} from "react-router-dom";
 import {HOST_URL} from "../../utils/utils";
 import jwt_decode from "jwt-decode";
 import {createUpdateInfoAction} from "../../redux/actions/Userinfo";
-import mapStateToProps from "react-redux/lib/connect/mapStateToProps";
-import mapDispatchToProps from "react-redux/lib/connect/mapDispatchToProps";
+
 import {connect} from "react-redux";
 
 
@@ -35,9 +34,9 @@ class LoginForm extends React.Component {
                 this.props.UpdateUserInfo({
                     privilege: decoded.privilege,
                     email: decoded.email,
-                    username: decoded.name
+                    username: decoded.name,
+                    id:decoded.userid
                 })
-                console.log(decoded)
                 this.props.history.replace('/home')
             }
         }).catch(error => {

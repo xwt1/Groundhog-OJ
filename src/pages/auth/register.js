@@ -27,8 +27,8 @@ class  RegisterForm extends React.Component {
             username: values.username,
             password: values.password,
             email: values.email,
-        }).then(response => {
-            if (response.data.err==='ok'){
+        }).then(res => {
+            if (res.data.err ==='ok'){
                 alert("注册成功")
                 this.props.history.replace('/auth/login')
             }

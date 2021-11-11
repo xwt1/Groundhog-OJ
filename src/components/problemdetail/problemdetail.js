@@ -12,7 +12,7 @@ import axios from "axios";
 import * as querystring from "querystring";
 import {HOST_URL} from "../../utils/utils";
 import ParticlesBg from "particles-bg";
-
+import {connect} from "react-redux";
 
 
 class ProblemDetail extends React.Component {
@@ -20,74 +20,69 @@ class ProblemDetail extends React.Component {
     constructor(props) {
         super(props);
         this.setState({})
-        this.state={
-            id:'',
-            name:'',
-            content:'',
-            difficulty:'',
+        this.state = {
+            id: '',
+            name: '',
+            content: '',
+            difficulty: '',
+            answer: '',
         }
         let id = querystring.parse(this.props.history.location.search.substr(1)).id
-        this.setState({id :id })
+        this.setState({id: id})
         axios.get(
-            HOST_URL + '/api/programs/'+id ,
+            HOST_URL + '/api/programs/' + id,
             {
-                headers:{
-                    'Authorization' :'Bearer '+localStorage.getItem('jwt')
+                headers: {
+                    'Authorization': localStorage.getItem('jwt')
                 }
             }
-        ).then(res=>{
+        ).then(res => {
             console.log(res.data)
-            if (res.data.err==='ok'){
+            if (res.data.err === 'ok') {
                 this.setState({
-                    id:res.data.id,
-                    name:res.data.name,
-                    content:res.data.content,
-                    difficulty:res.data.difficulty,
+                    ...res.data
                 })
-                // this.state={
-                //     id:res.data.id,
-                //     name:res.data.name,
-                //     content:res.data.content,
-                //     difficulty:res.data.difficulty,
-                // }
             }
-            console.log(this.state.id)
-        }).catch(err=>{
+        }).catch(err => {
             console.log(err.response)
         })
     }
 
-    handleContent=e=>{
+    handleContent = e => {
         this.setState({
-            answer:e.target.value
+            answer: e.target.value
         })
     }
 
-    confirm=e=>{
-        // console.log(this.state)
-        // console.log(localStorage.getItem('jwt'))
+    confirm = e => {
+        console.log(this.state.answer)
+        console.log(this.props.userinfo.id)
         axios.post(
-            HOST_URL + '/api/programs/'+this.state.id,
+            HOST_URL + '/api/programs/' + this.state.id,
             {
-                // program_id: this.state.id,
-                answer: ProblemDetail.answer,
+                program_id: this.state.id,
+                user_id: this.props.userinfo.id,
+                answer: this.state.answer
             },
             {
-                headers:{
-                    'Authorization' :'Bearer'+localStorage.getItem('jwt')||'',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': localStorage.getItem('jwt') || '',
                 }
-            }
-        ).then(Res=>{
-            console.log(Res.data.err)
+            },
+        ).then(res => {
             // console.log(Res.data.status)
-            if (Res.data.err==='ok'){
-                message.success('提交成功');
-                //message.success();
-                console.log(Res.data.status)
-            }else {
-               message.success('提交失败');
+            if (res.data.err === 'ok') {
+                if (res.data.status === 'pass') {
+                    message.success('答案正确');
+                    this.props.history.push('/home/problems')
+                }else{
+                    message.warning('答案错误');
+                }
+            } else {
+                message.error('提交失败');
             }
-        }).catch(err=>{
+        }).catch(err => {
             message.error('网络请求失败');
             console.log(err)
         })
@@ -99,7 +94,7 @@ class ProblemDetail extends React.Component {
                 {/*题目信息*/}
                 <Descriptions
                     bordered
-                    column={{ xxl: 3, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
+                    column={{xxl: 3, xl: 3, lg: 3, md: 3, sm: 2, xs: 1}}
                     datSource={this.state.data}
                 >
                     <Descriptions.Item label="题目序号">{this.state.id}</Descriptions.Item>
@@ -107,12 +102,13 @@ class ProblemDetail extends React.Component {
                     <Descriptions.Item label="题目难度">{this.state.difficulty}</Descriptions.Item>
                     <Descriptions.Item label="题目内容">
                         {this.state.content}
-                        <br />
+                        <br/>
                     </Descriptions.Item>
                 </Descriptions>
 
                 {/*答案 富文本框*/}
-                <TextArea placeholder={"请输入您的答案"}  rows={40} showCount  value={this.state.answer} allowClear onChange={this.handleContent}/>
+                <TextArea placeholder={"请输入您的答案"} rows={40} showCount value={this.state.answer} allowClear
+                          onChange={this.handleContent}/>
                 <br/>
                 {/*提交按钮*/}
                 <Affix offsetBottom={10}>
@@ -127,7 +123,7 @@ class ProblemDetail extends React.Component {
                 </Affix>
                 {/*点击回到顶部*/}
                 <BackTop>
-                    <strong >BackTop</strong>
+                    <strong>BackTop</strong>
                 </BackTop>
             </div>
 
@@ -135,4 +131,5 @@ class ProblemDetail extends React.Component {
     }
 }
 
-export default ProblemDetail ;
+export default connect(state => ({userinfo: state.userinfo}),
+    {},)(ProblemDetail)
