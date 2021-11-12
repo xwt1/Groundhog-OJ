@@ -11,10 +11,22 @@ import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
 import * as querystring from "querystring";
 import {HOST_URL} from "../../utils/utils";
-import ParticlesBg from "particles-bg";
 import {connect} from "react-redux";
 
+const ReactMarkdown = require('react-markdown')
+const markdown = `A paragraph with *emphasis* and **strong importance**.
 
+> A block quote with ~strikethrough~ and a URL: https://reactjs.org.
+
+* Lists
+* [ ] todo
+* [x] done
+
+A table:
+
+| a | b |
+| - | - |
+`
 class ProblemDetail extends React.Component {
 
     constructor(props) {
@@ -91,41 +103,46 @@ class ProblemDetail extends React.Component {
     render() {
         return (
             <div>
-                {/*题目信息*/}
-                <Descriptions
-                    bordered
-                    column={{xxl: 3, xl: 3, lg: 3, md: 3, sm: 2, xs: 1}}
-                    datSource={this.state.data}
-                >
-                    <Descriptions.Item label="题目序号">{this.state.id}</Descriptions.Item>
-                    <Descriptions.Item label="题目名称">{this.state.name}</Descriptions.Item>
-                    <Descriptions.Item label="题目难度">{this.state.difficulty}</Descriptions.Item>
-                    <Descriptions.Item label="题目内容">
-                        {this.state.content}
-                        <br/>
-                    </Descriptions.Item>
-                </Descriptions>
-
-                {/*答案 富文本框*/}
-                <TextArea placeholder={"请输入您的答案"} rows={40} showCount value={this.state.answer} allowClear
-                          onChange={this.handleContent}/>
-                <br/>
-                {/*提交按钮*/}
-                <Affix offsetBottom={10}>
-                    <Popconfirm
-                        title={"确认提交答案吗"}
-                        onConfirm={this.confirm}
-                        okText={"确认"}
-                        cancelText={"取消"}
+                <div>
+                    {/*题目信息*/}
+                    <Descriptions
+                        bordered
+                        column={{xxl: 3, xl: 3, lg: 3, md: 3, sm: 2, xs: 1}}
+                        datSource={this.state.data}
                     >
-                        <Button type={"primary"}>提交</Button>
-                    </Popconfirm>
-                </Affix>
-                {/*点击回到顶部*/}
-                <BackTop>
-                    <strong>BackTop</strong>
-                </BackTop>
+                        <Descriptions.Item label="题目序号">{this.state.id}</Descriptions.Item>
+                        <Descriptions.Item label="题目名称">{this.state.name}</Descriptions.Item>
+                        <Descriptions.Item label="题目难度">{this.state.difficulty}</Descriptions.Item>
+                        <Descriptions.Item label="题目内容">
+                            {this.state.content}
+                            <br/>
+                        </Descriptions.Item>
+                    </Descriptions>
+
+                    {/*答案 富文本框*/}
+                    <TextArea placeholder={"请输入您的答案"} rows={40} showCount value={this.state.answer} allowClear
+                              onChange={this.handleContent}/>
+                    <br/>
+                    {/*提交按钮*/}
+                    <Affix offsetBottom={10}>
+                        <Popconfirm
+                            title={"确认提交答案吗"}
+                            onConfirm={this.confirm}
+                            okText={"确认"}
+                            cancelText={"取消"}
+                        >
+                            <Button type={"primary"}>提交</Button>
+                        </Popconfirm>
+                    </Affix>
+                    {/*点击回到顶部*/}
+                    <BackTop>
+                        <strong>BackTop</strong>
+                    </BackTop>
+                </div>
+                <ReactMarkdown children={markdown} />,
             </div>
+
+
 
         );
     }

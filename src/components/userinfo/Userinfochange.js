@@ -1,18 +1,18 @@
 import {Button, Input, Space} from 'antd';
 import {EyeInvisibleOutlined, EyeTwoTone} from '@ant-design/icons';
 import React from "react";
-import {Route, Switch} from "react-router-dom";
+
 import '../userinfo/userinfo.css'
 import {useState} from "react";
-import useFetch from "./useFetch";
+
 import {useHistory} from "react-router-dom";
 import axios from "axios";
-import {getUserInfo, HOST_URL} from "../../utils/utils";
-import ParticlesBg from "particles-bg";
-import {connect, useDispatch, useSelector} from "react-redux";
+
+import { useDispatch, useSelector} from "react-redux";
 import jwt_decode from "jwt-decode";
-import * as constants from "constants";
+
 import {UPDATE_USER_INFO} from "../../redux/constant";
+import {HOST_URL} from "../../utils/utils";
 
 const Userinfochange = () => {
     const userinfo = useSelector(state => state.userinfo)
